@@ -1,6 +1,7 @@
 require 'yaml'
 require 'json'
 require 'twitter'
+require 'color_echo'
 
 config = YAML.load_file("config.yml")
 
@@ -21,11 +22,9 @@ end
 topics = ['MusicFM', 'Music FM', 'MusicBox']
 puts "====="
 tw_streaming.filter(track: topics.join(',')) do |object|
-  puts "#{object.user.name}:\n#{object.text}"
-  puts object.user.id
-  puts "====="
-  if object.text =~ /Music ?FMから(?:プレイリスト|楽曲)『.*』をシェアしました。タップして聴きましょう。/
+  if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
     tw_rest.block(object.user.id)
-    p "\e#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
+    CE.fg(:red)
+    puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
   end
 end
