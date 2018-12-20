@@ -5,4 +5,4 @@ COPY Gemfile.lock /app/Gemfile.lock
 RUN apk update && apk add git build-base
 RUN bundle install
 COPY . /app
-CMD bundle exec ruby -Ku bot.rb
+CMD bundle exec ruby -Ku app.rb
