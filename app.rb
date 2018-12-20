@@ -20,7 +20,7 @@ end
 
 topics = ['Music FMから楽曲', 'タップして聴きましょう。']
 tw_streaming.filter(track: topics.join(',')) do |object|
-  if object.text =~ /Music ?FMから楽曲『.*』をシェアしました。タップして聴きましょう。/
+  if object.text =~ /Music ?FMから(?:プレイリスト|楽曲)『.*』をシェアしました。タップして聴きましょう。/
     tw_rest.block(object.id_str)
     p "#{object.user.name}(#{object.user.screen_name}, #{object.user.id_str})をブロックしました"
     p object.text
