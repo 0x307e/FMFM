@@ -4,6 +4,7 @@ require 'twitter'
 require 'color_echo'
 
 config = YAML.load_file("config.yml")
+debug = ENV['debug']
 
 tw_rest = Twitter::REST::Client.new do |tw_config|
   tw_config.consumer_key = config['consumer_key']
