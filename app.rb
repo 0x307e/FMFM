@@ -25,6 +25,9 @@ puts "====="
 tw_streaming.filter(track: topics.join(',')) do |object|
   if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
     tw_rest.block(object.user.id)
+    File.open('data/blocking.csv', 'a') do |f|
+      f.puts(object.user.id)
+    end
     CE.fg(:red)
     puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
   end
