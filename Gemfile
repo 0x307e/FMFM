@@ -4,4 +4,3 @@ source "https://rubygems.org"
 
 gem 'redis'
 gem 'twitter'
-gem 'color_echo'
