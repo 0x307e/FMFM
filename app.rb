@@ -1,9 +1,9 @@
 require 'yaml'
-require 'json'
+require 'redis'
 require 'twitter'
-require 'color_echo'
 
 config = YAML.load_file("config.yml")
+redis = Redis.new host: config['redis']['db_host'], port: config['redis']['port']
 debug = ENV['debug']
 
 tw_rest = Twitter::REST::Client.new do |tw_config|
@@ -23,12 +23,10 @@ end
 topics = ['MusicFM', 'Music FM', 'MusicBox']
 puts "====="
 tw_streaming.filter(track: topics.join(',')) do |object|
+  user_status = redis.get object.user.id
   if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
     tw_rest.block(object.user.id)
-    File.open('data/blocking.csv', 'a') do |f|
-      f.puts(object.user.id)
-    end
-    CE.fg(:red)
+    redis.set object.user.id, 'blocked'
     puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
   end
 end
