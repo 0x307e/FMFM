@@ -2,7 +2,6 @@ require 'yaml'
 require 'json'
 require 'redis'
 require 'twitter'
-require 'color_echo'
 
 config = YAML.load_file("config.yml")
 redis = Redis.new host: config['redis']['db_host'], port: config['redis']['port']
@@ -32,7 +31,6 @@ tw_streaming.filter(track: topics.join(',')) do |object|
     # File.open('data/blocking.csv', 'a') do |f|
     #   f.puts(object.user.id)
     # end
-    CE.fg(:red)
     puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
   end
 end
