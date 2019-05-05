@@ -2,7 +2,7 @@ require 'yaml'
 require 'redis'
 require 'twitter'
 
-config = YAML.load_file("config.yml")
+config = YAML.load_file('config.yml')
 redis = Redis.new host: config['redis']['db_host'], port: config['redis']['port']
 debug = ENV['debug']
 
@@ -21,7 +21,7 @@ tw_streaming = Twitter::Streaming::Client.new do |tw_config|
 end
 
 topics = ['MusicFM', 'Music FM', 'MusicBox']
-puts "====="
+puts '====='
 tw_streaming.filter(track: topics.join(',')) do |object|
   user_status = redis.get object.user.id
   if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
