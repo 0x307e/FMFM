@@ -6,3 +6,5 @@ twitter:
 redis:
   db_host: 'redis'
   db_port: 6379
+lastfm:
+  api_key: ''
