@@ -28,9 +28,6 @@ tw_streaming.filter(track: topics.join(',')) do |object|
     if user_status == nil
       tw_rest.block(object.user.id)
       redis.set object.user.id, 'blocked'
-      File.open('data/blocking.csv', 'a') do |f|
-        f.puts object.user.id
-      end
       puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
     end
   end
