@@ -31,7 +31,7 @@ tw_streaming.filter(track: topics.join(',')) do |object|
     res = Faraday.get(URI.encode("https://ws.audioscrobbler.com/2.0/?method=track.search&track=#{song_name}&api_key=#{config['last_fm']['api_key']}&format=json"))
     if res.success?
       song = JSON.parse res.body, {symbolize_names: true}
-      artist_name = song[:trackmatches][:track][0][:artist]
+      artist_name = song[:results][:trackmatches][:track][0][:artist]
       redis.zincrby 'rank/artist', 1, artist_name
       redis.zincrby 'rank/song', 1, song_name
     end
