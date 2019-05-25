@@ -26,7 +26,7 @@ topics = ['MusicFM', 'Music FM', 'MusicBox']
 puts '====='
 tw_streaming.filter(track: topics.join(',')) do |object|
   if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
-    if object.text.include('プレイリスト')
+    if object.text.include?('プレイリスト')
       next
     else
       song_name = object.text[/『(.*)』/, 1]
