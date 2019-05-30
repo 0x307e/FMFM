@@ -7,20 +7,10 @@ require 'faraday'
 config = YAML.load_file('config.yml')
 redis = Redis.new host: config['redis']['db_host'], port: config['redis']['port']
 debug = ENV['debug']
+tw_config = config['twitter'].to_hash
 
-tw_rest = Twitter::REST::Client.new do |tw_config|
-  tw_config.consumer_key = config['twitter']['consumer_key']
-  tw_config.consumer_secret = config['twitter']['consumer_secret']
-  tw_config.access_token = config['twitter']['access_token']
-  tw_config.access_token_secret = config['twitter']['access_token_secret']
-end
-
-tw_streaming = Twitter::Streaming::Client.new do |tw_config|
-  tw_config.consumer_key = config['twitter']['consumer_key']
-  tw_config.consumer_secret = config['twitter']['consumer_secret']
-  tw_config.access_token = config['twitter']['access_token']
-  tw_config.access_token_secret = config['twitter']['access_token_secret']
-end
+tw_rest = Twitter::REST::Client.new tw_config
+tw_streaming = Twitter::Streaming::Client.new tw_config
 
 topics = ['MusicFM', 'Music FM', 'MusicBox']
 puts '====='
