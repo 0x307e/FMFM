@@ -7,6 +7,8 @@ GEM
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -21,6 +23,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     public_suffix (3.0.3)
+    rake (12.3.2)
     redis (4.1.0)
     simple_oauth (0.3.1)
     thread_safe (0.3.6)
@@ -43,6 +46,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  faraday
+  rake
   redis
   twitter
 
