@@ -16,6 +16,9 @@ topics = ['MusicFM', 'Music FM', 'MusicBox']
 puts '====='
 tw_streaming.filter(track: topics.join(',')) do |object|
   if object.text =~ /.*Music(?: (?:Box|FM)|Box|FM)から(?:プレイリスト|楽曲)『.*』をシェアしました。.*/
+    if redis.sadd 'blocked', object.user.id
+      tw_rest.block(object.user.id)
+      puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
     if object.text.include?('プレイリスト')
       next
     else
@@ -30,8 +33,5 @@ tw_streaming.filter(track: topics.join(',')) do |object|
         redis.zincrby 'rank/song', 1, song_name
       end
     end
-    tw_rest.block(object.user.id)
-    redis.sadd 'blocked', object.user.id
-    puts "#{object.user.name}(#{object.user.screen_name}, #{object.user.id})をブロックしました"
   end
 end
