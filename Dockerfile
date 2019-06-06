@@ -1,4 +1,4 @@
-FROM ruby:2.5.3-alpine
+FROM ruby:2.6.3-alpine
 WORKDIR /app
 RUN apk update && apk add git build-base
 COPY Gemfile /app/Gemfile
